@@ -21,4 +21,4 @@ const AssignmentResultSchema = new mongoose.Schema(
     },
 );
 
-export default mongoose.model('AssignmnetResult', AssignmentResultSchema);
+export default mongoose.model('AssignmetResult', AssignmentResultSchema);
