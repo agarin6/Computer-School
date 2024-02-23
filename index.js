@@ -3,6 +3,17 @@ import mongoose from 'mongoose';
 import multer from 'multer';
 import cors from 'cors';
 
+import {
+    userController,
+    teacherController,
+    scheduleController,
+    locationController,
+    groupController,
+    courseController,
+    assignmentController,
+    assignmentResultController,
+} from './controllers/index.js';
+
 mongoose
     .connect('mongodb+srv://admin:He12345678@cluster0.k6wg7rw.mongodb.net/ComputerSchool?retryWrites=true&w=majority')
     .then(() => console.log('DB OK'))
