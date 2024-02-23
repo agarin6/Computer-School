@@ -17,7 +17,7 @@ const GroupSchema = new mongoose.Schema(
                 ref: 'User',
             }
         ],
-        shedule: {
+        schedule: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Shedule',
             required: true,
