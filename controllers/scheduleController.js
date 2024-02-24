@@ -1,6 +1,6 @@
 import SheduleModel from '../models/shedule.js';
 
-export const createShedule = async (req, res) => {
+export const createSchedule = async (req, res) => {
     try {
         const doc = new SheduleModel({
             group: req.body.group,
@@ -18,7 +18,7 @@ export const createShedule = async (req, res) => {
     }
 };
 
-export const removeShedule = async (req, res) => {
+export const removeSchedule = async (req, res) => {
     try {
         const sheduleId = req.params.id;
         const doc = await SheduleModel.findByIdAndDelete(sheduleId);
@@ -38,7 +38,7 @@ export const removeShedule = async (req, res) => {
     }
 };
 
-export const updateShedule = async (req, res) => {
+export const updateSchedule = async (req, res) => {
     try {
         const sheduleId = req.params.id;
 
@@ -60,7 +60,7 @@ export const updateShedule = async (req, res) => {
     }
 };
 
-export const getOneShedule = async (req, res) => {
+export const getOneSchedule = async (req, res) => {
     try {
         const sheduleId = req.params.id;
         const doc = await SheduleModel.findById(sheduleId);
@@ -78,7 +78,7 @@ export const getOneShedule = async (req, res) => {
     }
 };
 
-export const getAllShedules = async (req, res) => {
+export const getAllSchedules = async (req, res) => {
     try {
         const shedules = await SheduleModel.find();
         res.json(shedules);
