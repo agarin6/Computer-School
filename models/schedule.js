@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const SheduleSchema = new mongoose.Schema(
+const ScheduleSchema = new mongoose.Schema(
     {
         group: {
             type: mongoose.Schema.Types.ObjectId,
@@ -12,7 +12,7 @@ const SheduleSchema = new mongoose.Schema(
             required: true,
         },
         location: {
-            ttype: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'Location',
             required: true,
         },
@@ -23,4 +23,4 @@ const SheduleSchema = new mongoose.Schema(
     },
 );
 
-export default mongoose.model('Shedule', SheduleSchema);
+export default mongoose.model('Schedule', ScheduleSchema);

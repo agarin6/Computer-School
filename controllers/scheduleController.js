@@ -1,8 +1,8 @@
-import SheduleModel from '../models/shedule.js';
+import ScheduleModel from '../models/schedule.js';
 
 export const createSchedule = async (req, res) => {
     try {
-        const doc = new SheduleModel({
+        const doc = new ScheduleModel({
             group: req.body.group,
             dateTime: req.body.dateTime,
             location: req.body.location,
@@ -21,7 +21,7 @@ export const createSchedule = async (req, res) => {
 export const removeSchedule = async (req, res) => {
     try {
         const sheduleId = req.params.id;
-        const doc = await SheduleModel.findByIdAndDelete(sheduleId);
+        const doc = await ScheduleModel.findByIdAndDelete(sheduleId);
 
         if (!doc) {
             return res.status(404).json({
@@ -42,7 +42,7 @@ export const updateSchedule = async (req, res) => {
     try {
         const sheduleId = req.params.id;
 
-        await SheduleModel.updateOne(
+        await ScheduleModel.updateOne(
             { _id: sheduleId },
             {
                 group: req.body.group,
@@ -63,7 +63,7 @@ export const updateSchedule = async (req, res) => {
 export const getOneSchedule = async (req, res) => {
     try {
         const sheduleId = req.params.id;
-        const doc = await SheduleModel.findById(sheduleId);
+        const doc = await ScheduleModel.findById(sheduleId);
 
         if (doc) {
             res.json(doc);
@@ -80,7 +80,7 @@ export const getOneSchedule = async (req, res) => {
 
 export const getAllSchedules = async (req, res) => {
     try {
-        const shedules = await SheduleModel.find();
+        const shedules = await ScheduleModel.find();
         res.json(shedules);
     } catch (err) {
         console.log(err);
