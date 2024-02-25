@@ -41,7 +41,7 @@ import {
 } from './utils/index.js'
 
 mongoose
-    .connect('mongodb+srv://admin:He12345678@cluster0.k6wg7rw.mongodb.net/ComputerSchool?retryWrites=true&w=majority')
+    .connect('mongodb+srv://admin:Hesus2016@cluster0.vgtv5yo.mongodb.net/ComputerSchool')
     .then(() => console.log('DB OK'))
     .catch((err) => console.log('DB ERROR', err));
 
@@ -84,7 +84,7 @@ app.get('/teachers', teacherController.getAllTeachers);
 
 //shedule 
 app.post('/schedule/create', adminOrTeacherAuth, createScheduleValidation, handleValidationErrors, scheduleController.createSchedule);
-app.delete('/scedule/delete/:id', adminOnlyAuth, scheduleController.removeSchedule);
+app.delete('/schedule/delete/:id', adminOnlyAuth, scheduleController.removeSchedule);
 app.patch('/schedule/update/:id', adminOrTeacherAuth, updateScheduleValidation, handleValidationErrors, scheduleController.updateSchedule);
 app.get('/schedule/:id', allRolesAuth, scheduleController.getOneSchedule);
 app.get('/schedules', adminOrTeacherAuth, scheduleController.getAllSchedules);
@@ -107,8 +107,8 @@ app.get('/groups', adminOnlyAuth, groupController.getAllGroups);
 app.post('/course/create', adminOnlyAuth, createCourseValidation, handleValidationErrors, courseController.create);
 app.delete('/course/delete/:id', adminOnlyAuth, courseController.remove);
 app.patch('/course/update/:id', adminOnlyAuth, updateCourseValidation, handleValidationErrors, courseController.update);
-app.get('/course/:id', allRolesAuth, courseController.getOne);
-app.get('/courses', allRolesAuth, courseController.getAll);
+app.get('/course/:id', courseController.getOne);
+app.get('/courses', courseController.getAll);
 
 // Assignment Results
 app.post('/assignmentResult/create', allRolesAuth, createAssignmentResultValidation, handleValidationErrors, assignmentResultController.createAssignmentResult);

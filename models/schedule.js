@@ -7,17 +7,16 @@ const ScheduleSchema = new mongoose.Schema(
             ref: 'Group',
             required: true,
         },
-        dateTime: {
+        dateTime: [{
             type: Date,
             required: true,
-        },
+        }],
         location: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Location',
             required: true,
         },
-    }
-    ,
+    },
     {
         timestamps: true,
     },

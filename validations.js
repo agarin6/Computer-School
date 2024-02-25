@@ -35,13 +35,20 @@ export const updateTeacherValidation = [
 // Shedule 
 export const createScheduleValidation = [
     body('group', 'Group ID is required').notEmpty().isMongoId(),
-    body('dateTime', 'Date and time are required').notEmpty().isISO8601(),
+    body('dateTime', 'Date and time are required')
+        .isArray({ min: 1 }).withMessage('Date and time must be an array with at least one date')
+        .custom((dates) => dates.every(date => /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(Z|[\+\-]\d{2}:\d{2})$/.test(date)))
+        .withMessage('Every date and time in the array must be a valid ISO8601 date'),
     body('location', 'Location ID is required').notEmpty().isMongoId(),
 ];
 
 export const updateScheduleValidation = [
     body('group', 'Group ID must be a valid MongoDB ID').optional().isMongoId(),
-    body('dateTime', 'Date and time must be valid').optional().isISO8601(),
+    body('dateTime', 'Date and time must be valid')
+        .optional()
+        .isArray().withMessage('Date and time must be an array')
+        .custom((dates, { req }) => req.body.dateTime ? dates.every(date => /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(Z|[\+\-]\d{2}:\d{2})$/.test(date)) : true)
+        .withMessage('Every date and time in the array must be a valid ISO8601 date'),
     body('location', 'Location ID must be a valid MongoDB ID').optional().isMongoId(),
 ];
 
@@ -62,7 +69,7 @@ export const createGroupValidation = [
     body('course', 'Course ID is required').notEmpty().isMongoId(),
     body('students', 'Students must be an array').optional().isArray(),
     body('students.*', 'Each student must be a valid MongoDB ID').optional().isMongoId(),
-    body('schedule', 'Schedule ID is required').notEmpty().isMongoId(),
+    body('schedule', 'Schedule ID is required').optional().isMongoId(),
 ];
 
 export const updateGroupValidation = [
