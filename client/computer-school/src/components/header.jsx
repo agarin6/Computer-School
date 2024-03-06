@@ -18,11 +18,9 @@ import avatart from '../../src/media/avatar.png';
 
 const pages = [
     { title: 'Главная', path: '/' },
-    // { title: 'Услуги', path: '/services' },
-    // { title: 'Мастера', path: '/employees' },
-    // { title: 'Запчасти', path: '/parts' },
-    // { title: 'Оставить заявку', path: '/order-creating' },
-    // { title: 'Отзывы', path: '/reviews' },
+    { title: 'Курсы', path: '/courses'},
+    { title: 'Менторы', path: '/teachers'},
+    { title: 'Наши адреса', path: '/locations'},
     // { title: 'Заказы', path: '/orders', adminOnly: true },
     // { title: 'Админка услуги', path: '/adminka', adminOnly: true },
     // { title: 'Админка запчасти', path: '/adminka1', adminOnly: true },
