@@ -11,6 +11,10 @@ import RegistrationPage from './components/register';
 import Header from './components/header';
 import Footer from './components/footer';
 import UserProfile from './components/userProfile';
+import CoursesList from './components/coursesList';
+import CourseProfile from './components/CourseProfile';
+import TeachersList from './components/TeacherList';
+import LocationsList from './components/LocationsList';
 
 function App() {
   const dispatch = useDispatch();
@@ -31,6 +35,10 @@ function App() {
           <Routes>
             {/* <Route path='/' element={<HomePage></HomePage>} /> */}
             <Route path='/profile' element={<UserProfile></UserProfile>} />
+            <Route path='/courses' element={<CoursesList></CoursesList>} />
+            <Route path='/courses/:courseId' element={<CourseProfile></CourseProfile>} />
+            <Route path='/teachers' element={<TeachersList></TeachersList>} />
+            <Route path='/locations' element={<LocationsList></LocationsList>} />
             {!isAuth && <Route path='/registration' element={<RegistrationPage />} />}
             {!isAuth && <Route path='/login' element={<LoginPage />} />}
             {isAuth && <Route path="*" element={<Navigate to="/" />} />}
