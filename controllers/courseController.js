@@ -78,7 +78,7 @@ export const getOne = async (req, res) => {
     try{
         const courseId = req.params.id;
 
-        const doc = await CourseModel.findById(courseId);
+        const doc = await CourseModel.findById(courseId).populate('teacher');
 
         if (doc) {
             res.json(doc);
