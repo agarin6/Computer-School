@@ -63,8 +63,8 @@ export const updateTeacher = async (req, res) => {
 export const getOneTeacher = async (req, res) => {
     try {
         const teacherId = req.params.id;
-        const doc = await TeacherModel.findById(teacherId);
-
+        const doc = await TeacherModel.findById(teacherId).populate('user', 'userName');
+us
         if (doc) {
             res.json(doc);
         } else {
@@ -80,7 +80,7 @@ export const getOneTeacher = async (req, res) => {
 
 export const getAllTeachers = async (req, res) => {
     try {
-        const teachers = await TeacherModel.find();
+        const teachers = await TeacherModel.find().populate('user', 'userName');
         res.json(teachers);
     } catch (err) {
         console.log(err);
