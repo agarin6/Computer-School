@@ -74,6 +74,7 @@ app.post('/auth/login', loginValidation, handleValidationErrors, userController.
 app.post('/auth/register', registerValidation, handleValidationErrors, userController.register);
 app.get('/auth/me', allRolesAuth, userController.getMe);
 app.get('/user/:userId', allRolesAuth, userController.getUserById);
+app.get('/users', userController.getAllUsers);
 
 //teachers
 app.post('/teacher/create', adminOnlyAuth, createTeacherValidation, handleValidationErrors, teacherController.createTeacher);
@@ -93,8 +94,8 @@ app.get('/schedules', adminOrTeacherAuth, scheduleController.getAllSchedules);
 app.post('/location/create', adminOnlyAuth, createLocationValidation, handleValidationErrors, locationController.createLocation);
 app.delete('/location/delete/:id', adminOnlyAuth, locationController.removeLocation);
 app.patch('/location/update/:id', adminOnlyAuth, updateLocationValidation, handleValidationErrors, locationController.updateLocation);
-app.get('/location/:id', allRolesAuth, locationController.getOneLocation);
-app.get('/locations', allRolesAuth, locationController.getAllLocations);
+app.get('/location/:id', locationController.getOneLocation);
+app.get('/locations', locationController.getAllLocations);
 
 // Groups
 app.post('/group/create', adminOnlyAuth, createGroupValidation, handleValidationErrors, groupController.createGroup);

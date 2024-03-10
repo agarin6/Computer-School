@@ -4,7 +4,7 @@ import axios from "../axios";
 export const fetchAuth = createAsyncThunk('auth/fetchAuth', async (params) => {
     const { data } = await axios.post('/auth/login', params);
     return data;
-}); 
+});
 
 export const fetchRegister = createAsyncThunk('auth/fetchRegister', async (params) => {
     const { data } = await axios.post('/auth/register', params);
@@ -14,10 +14,15 @@ export const fetchRegister = createAsyncThunk('auth/fetchRegister', async (param
 export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async () => {
     const { data } = await axios.get('/auth/me');
     return data;
-}); 
+});
 
 export const fetchUserById = createAsyncThunk('auth/fetchUserById', async (userId) => {
     const { data } = await axios.get(`/user/${userId}`);
+    return data;
+});
+
+export const fetchGetAllUsers = createAsyncThunk('auth/fetchGetAllUsers', async () => {
+    const { data } = await axios.get('/users');
     return data;
 });
 
@@ -82,6 +87,16 @@ const authSlice = createSlice({
                 state.status = 'loaded';
             })
             .addCase(fetchUserById.rejected, (state) => {
+                state.status = 'error';
+            })
+            .addCase(fetchGetAllUsers.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchGetAllUsers.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.users = action.payload;
+            })
+            .addCase(fetchGetAllUsers.rejected, (state) => {
                 state.status = 'error';
             });
     },

@@ -123,3 +123,13 @@ export const getUserById = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+
+export const getAllUsers = async (req, res) => {
+    try {
+        const users = await UserModel.find().select('-passwordHash');
+        res.json(users);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Не удалось получить список пользователей' });
+    }
+};

@@ -15,6 +15,10 @@ import CoursesList from './components/coursesList';
 import CourseProfile from './components/CourseProfile';
 import TeachersList from './components/TeacherList';
 import LocationsList from './components/LocationsList';
+import TeacherAdminka from './components/teacherAdminka';
+import CoursesAdminka from './components/CoursesAdminks';
+import GroupsManager from './components/gropuManager';
+import ScheduleManager from './components/schedulesManager';
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +43,10 @@ function App() {
             <Route path='/courses/:courseId' element={<CourseProfile></CourseProfile>} />
             <Route path='/teachers' element={<TeachersList></TeachersList>} />
             <Route path='/locations' element={<LocationsList></LocationsList>} />
+            <Route path='/adminka1' element={<TeacherAdminka></TeacherAdminka>} />
+            <Route path='/adminka2' element={<CoursesAdminka></CoursesAdminka>} />
+            <Route path='/adminka3' element={<GroupsManager></GroupsManager>} />
+            <Route path='/adminka4' element={<ScheduleManager></ScheduleManager>} />
             {!isAuth && <Route path='/registration' element={<RegistrationPage />} />}
             {!isAuth && <Route path='/login' element={<LoginPage />} />}
             {isAuth && <Route path="*" element={<Navigate to="/" />} />}
