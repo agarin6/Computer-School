@@ -19,6 +19,8 @@ import TeacherAdminka from './components/teacherAdminka';
 import CoursesAdminka from './components/CoursesAdminks';
 import GroupsManager from './components/gropuManager';
 import ScheduleManager from './components/schedulesManager';
+import GroupsList from './components/groupList';
+import GroupDetail from './components/GroupDetail';
 
 function App() {
   const dispatch = useDispatch();
@@ -37,21 +39,26 @@ function App() {
         <Header />
         <Box component="main" flexGrow={1} sx={{ width: '100%' }}>
           <Routes>
-            {/* <Route path='/' element={<HomePage></HomePage>} /> */}
-            <Route path='/profile' element={<UserProfile></UserProfile>} />
-            <Route path='/courses' element={<CoursesList></CoursesList>} />
-            <Route path='/courses/:courseId' element={<CourseProfile></CourseProfile>} />
-            <Route path='/teachers' element={<TeachersList></TeachersList>} />
-            <Route path='/locations' element={<LocationsList></LocationsList>} />
-            <Route path='/adminka1' element={<TeacherAdminka></TeacherAdminka>} />
-            <Route path='/adminka2' element={<CoursesAdminka></CoursesAdminka>} />
-            <Route path='/adminka3' element={<GroupsManager></GroupsManager>} />
-            <Route path='/adminka4' element={<ScheduleManager></ScheduleManager>} />
+            {/* Existing routes */}
+            <Route path='/profile' element={<UserProfile />} />
+            <Route path='/courses' element={<CoursesList />} />
+            <Route path='/courses/:courseId' element={<CourseProfile />} />
+            <Route path='/teachers' element={<TeachersList />} />
+            <Route path='/locations' element={<LocationsList />} />
+            <Route path='/adminka1' element={<TeacherAdminka />} />
+            <Route path='/adminka2' element={<CoursesAdminka />} />
+            <Route path='/adminka3' element={<GroupsManager />} />
+            <Route path='/adminka4' element={<ScheduleManager />} />
+            <Route path='/groups' element={<GroupsList />} />
+            {/* Add the GroupDetail route here */}
+            <Route path='/groups/:id' element={<GroupDetail />} />
+            {/* Authentication and default routes */}
             {!isAuth && <Route path='/registration' element={<RegistrationPage />} />}
             {!isAuth && <Route path='/login' element={<LoginPage />} />}
-            {isAuth && <Route path="*" element={<Navigate to="/" />} />}
-            {!isAuth && <Route path="*" element={<Navigate to="/login" />} />}
+            {isAuth && <Route path="*" element={<Navigate to="/" replace />} />}
+            {!isAuth && <Route path="*" element={<Navigate to="/login" replace />} />}
           </Routes>
+
         </Box>
         <Footer></Footer>
       </Box>
