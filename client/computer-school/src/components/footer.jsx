@@ -8,7 +8,7 @@ import logo from '../../src/media/logo.png';
 
 function Footer() {
     return (
-        <Box component="footer" sx={{ bgcolor: 'background.paper', py: 6 }}>
+        <Box component="footer" sx={{ backgroundColor: '#fcba03', py: 6 }}>
             <Container maxWidth="lg">
                 <Grid container spacing={4} justifyContent="space-between">
                     <Grid item xs={12} sm={4}>
