@@ -124,6 +124,9 @@ app.delete('/assignment/delete/:id', adminOrTeacherAuth, assignmentController.re
 app.patch('/assignment/update/:id', adminOrTeacherAuth, updateAssignmentValidation, handleValidationErrors, assignmentController.updateAssignment);
 app.get('/assignment/:id', allRolesAuth, assignmentController.getOneAssignment);
 app.get('/assignments', allRolesAuth, assignmentController.getAllAssignments);
+// Добавление результата к домашнему заданию
+app.post('/assignment/:id/add-result', allRolesAuth, assignmentController.addResultToAssignment);
+
 
 app.listen(4444, (err) => {
     if (err) {

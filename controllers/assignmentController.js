@@ -7,6 +7,7 @@ export const createAssignment = async (req, res) => {
             description: req.body.description,
             dueDate: req.body.dueDate,
             group: req.body.group,
+            // Не добавляем results сразу, так как они будут добавляться по мере выполнения заданий
         });
 
         const assignment = await doc.save();
@@ -15,6 +16,32 @@ export const createAssignment = async (req, res) => {
         console.log(err);
         res.status(500).json({
             message: 'Failed to create assignment',
+        });
+    }
+};  
+
+export const addResultToAssignment = async (req, res) => {
+    try {
+        const assignmentId = req.params.id;
+        const resultId = req.body.resultId; // ID результата, который нужно добавить
+
+        const assignment = await AssignmentModel.findByIdAndUpdate(
+            assignmentId,
+            { $push: { results: resultId } }, // Добавляем ID результата в массив
+            { new: true } // Возвращаем обновлённый документ
+        );
+
+        if (!assignment) {
+            return res.status(404).json({
+                message: 'Assignment not found',
+            });
+        }
+
+        res.json(assignment);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'Failed to add result to assignment',
         });
     }
 };
@@ -65,7 +92,8 @@ export const updateAssignment = async (req, res) => {
 export const getOneAssignment = async (req, res) => {
     try {
         const assignmentId = req.params.id;
-        const doc = await AssignmentModel.findById(assignmentId).populate('group');
+        // Теперь также делаем populate для results, чтобы получать детали результатов, а не только их ID
+        const doc = await AssignmentModel.findById(assignmentId).populate('group').populate('results');
 
         if (doc) {
             res.json(doc);

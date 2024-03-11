@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from '../axios'; // предполагается, что axios уже настроен для взаимодействия с твоим API
+import axios from '../axios';
 
-// Async thunks
 export const fetchAllAssignments = createAsyncThunk('assignments/fetchAllAssignments', async () => {
     const { data } = await axios.get('/assignments');
     return data;
@@ -27,7 +26,11 @@ export const deleteAssignment = createAsyncThunk('assignments/deleteAssignment',
     return id;
 });
 
-// Initial state
+export const addResultToAssignment = createAsyncThunk('assignments/addResultToAssignment', async ({ id, resultData }) => {
+    const { data } = await axios.post(`/assignment/${id}/add-result`, resultData);
+    return { id, resultData: data };
+});
+
 const initialState = {
     assignments: [],
     currentAssignment: null,
@@ -35,7 +38,6 @@ const initialState = {
     error: null,
 };
 
-// Slice definition
 const assignmentsSlice = createSlice({
     name: 'assignments',
     initialState,
@@ -67,6 +69,12 @@ const assignmentsSlice = createSlice({
             })
             .addCase(deleteAssignment.fulfilled, (state, action) => {
                 state.assignments = state.assignments.filter(assignment => assignment._id !== action.payload);
+            })
+            .addCase(addResultToAssignment.fulfilled, (state, action) => {
+                const index = state.assignments.findIndex(assignment => assignment._id === action.payload.id);
+                if (index !== -1) {
+                    state.assignments[index].results.push(action.payload.resultData);
+                }
             });
     },
 });
