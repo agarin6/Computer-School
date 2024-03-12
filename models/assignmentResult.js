@@ -14,7 +14,12 @@ const AssignmentResultSchema = new mongoose.Schema(
         score: {
             type: Number,
             required: true,
-        }
+        },
+        assignment: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Assignment',
+            required: true,
+        },
     },
     {
         timestamps: true,

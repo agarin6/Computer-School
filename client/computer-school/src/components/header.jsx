@@ -166,6 +166,11 @@ function Header() {
                                     </Link>
                                 </MenuItem>
                                 <MenuItem>
+                                    <Link to='/groups'>
+                                        Группы
+                                    </Link>
+                                </MenuItem>
+                                <MenuItem>
                                     <Typography onClick={onClickLogout}>
                                         Выйти
                                     </Typography>

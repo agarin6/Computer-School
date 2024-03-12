@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchGroupById } from '../redux/slices/groups';
 import { createAssignment, fetchAllAssignments } from '../redux/slices/assignments';
-import { createAssignmentResult, fetchAllAssignmentResults } from '../redux/slices/assignmentResults';
-import { Card, CardContent, Typography, Box, List, ListItem, ListItemText, Divider, Button, Avatar, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { createAssignmentResult, fetchAllAssignmentResults, updateAssignmentResult } from '../redux/slices/assignmentResults';
+import { Card, CardContent, Typography, Box, List, ListItem, ListItemText, Divider, CardMedia, Button, Avatar, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import Link from '@mui/material/Link';
 
 const GroupDetail = () => {
     const { id } = useParams();
@@ -21,6 +22,25 @@ const GroupDetail = () => {
     const [assignmentDescription, setAssignmentDescription] = useState('');
     const [dueDate, setDueDate] = useState('');
     const [gitHubLink, setGitHubLink] = useState('');
+    const [openScoreDialog, setOpenScoreDialog] = useState(false);
+    const [currentResultId, setCurrentResultId] = useState(null);
+    const [newScore, setNewScore] = useState('');
+
+    const handleOpenScoreDialog = (resultId, currentScore) => {
+        setCurrentResultId(resultId);
+        setNewScore(currentScore.toString());
+        setOpenScoreDialog(true);
+    };
+
+    const handleCloseScoreDialog = () => {
+        setOpenScoreDialog(false);
+    };
+
+    const handleUpdateScore = () => {
+        dispatch(updateAssignmentResult({ id: currentResultId, updatedData: { score: parseInt(newScore, 10) } }));
+        handleCloseScoreDialog();
+    };
+
 
     useEffect(() => {
         dispatch(fetchGroupById(id));
@@ -63,7 +83,7 @@ const GroupDetail = () => {
 
     const handleSubmitResult = () => {
         dispatch(createAssignmentResult({
-            assignmentId: selectedAssignmentId,
+            assignment: selectedAssignmentId, // Подтвердите, что ключ называется 'assignment'
             user: userData._id,
             gitHubLink,
             score: 0,
@@ -78,6 +98,12 @@ const GroupDetail = () => {
                 <>
                     <Card>
                         <CardContent>
+                            <CardMedia
+                                component="img"
+                                height="140"
+                                image={group.course.imageUrl || 'https://via.placeholder.com/140'}
+                                alt={group.course.name}
+                            />
                             <Typography gutterBottom variant="h4" component="div">{group.name}</Typography>
                             <Typography gutterBottom variant="h5" component="div">{group.course.name}</Typography>
                             {(userData && (userData.role === 'teacher' || userData.role === 'admin')) && <Button onClick={handleOpenDialog}>Добавить задание</Button>}
@@ -113,9 +139,24 @@ const GroupDetail = () => {
                                         {userData && userData.role === 'student' && <Button onClick={() => handleOpenResultDialog(assignment._id)}>Сдать работу</Button>}
                                         <Typography variant="subtitle2">Решения:</Typography>
                                         <List>
-                                            {assignmentResults.map((result) => (
+                                            {assignmentResults.filter(result => result.assignment === assignment._id).map((result) => (
                                                 <ListItem key={result._id}>
-                                                    <ListItemText primary={`Сдано пользователем: ${result.user.userName}`} secondary={`GitHub Link: ${result.gitHubLink} Score: ${result.score}`} />
+                                                    <ListItemText
+                                                        primary={`Сдано пользователем: ${result.user.userName}`}
+                                                        secondary={
+                                                            <>
+                                                                GitHub Link:
+                                                                <Link href={result.gitHubLink} target="_blank" rel="noopener noreferrer">
+                                                                    {result.gitHubLink}
+                                                                </Link>
+                                                                <br />
+                                                                Score: {result.score}
+                                                                {userData && userData.role === 'teacher' && (
+                                                                    <Button onClick={() => handleOpenScoreDialog(result._id, result.score)}>Изменить оценку</Button>
+                                                                )}
+                                                            </>
+                                                        }
+                                                    />
                                                 </ListItem>
                                             ))}
                                         </List>
@@ -148,6 +189,26 @@ const GroupDetail = () => {
                     <Button onClick={handleSubmitResult}>Сдать</Button>
                 </DialogActions>
             </Dialog>
+            <Dialog open={openScoreDialog} onClose={handleCloseScoreDialog}>
+                <DialogTitle>Изменить оценку</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        label="Новая оценка"
+                        type="number"
+                        fullWidth
+                        variant="outlined"
+                        value={newScore}
+                        onChange={(e) => setNewScore(e.target.value)}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseScoreDialog}>Отмена</Button>
+                    <Button onClick={handleUpdateScore}>Сохранить</Button>
+                </DialogActions>
+            </Dialog>
+
         </Box>
     );
 };

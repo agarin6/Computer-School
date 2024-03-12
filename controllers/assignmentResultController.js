@@ -6,6 +6,7 @@ export const createAssignmentResult = async (req, res) => {
             user: req.body.user,
             gitHubLink: req.body.gitHubLink,
             score: req.body.score,
+            assignment: req.body.assignment, // Убедитесь, что это поле совпадает с ключом на фронтенде
         });
 
         const assignmentResult = await doc.save();

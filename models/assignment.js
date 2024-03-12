@@ -16,10 +16,6 @@ const AssignmentSchema = new mongoose.Schema(
             ref: 'Group',
             required: true,
         },
-        results: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'AssignmentResult'
-        }]
     },
     {
         timestamps: true,

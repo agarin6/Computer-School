@@ -26,11 +26,6 @@ export const deleteAssignment = createAsyncThunk('assignments/deleteAssignment',
     return id;
 });
 
-export const addResultToAssignment = createAsyncThunk('assignments/addResultToAssignment', async ({ id, resultData }) => {
-    const { data } = await axios.post(`/assignment/${id}/add-result`, resultData);
-    return { id, resultData: data };
-});
-
 const initialState = {
     assignments: [],
     currentAssignment: null,
@@ -70,12 +65,6 @@ const assignmentsSlice = createSlice({
             .addCase(deleteAssignment.fulfilled, (state, action) => {
                 state.assignments = state.assignments.filter(assignment => assignment._id !== action.payload);
             })
-            .addCase(addResultToAssignment.fulfilled, (state, action) => {
-                const index = state.assignments.findIndex(assignment => assignment._id === action.payload.id);
-                if (index !== -1) {
-                    state.assignments[index].results.push(action.payload.resultData);
-                }
-            });
     },
 });
 
