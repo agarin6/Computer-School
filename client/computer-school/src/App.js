@@ -21,6 +21,7 @@ import GroupsManager from './components/gropuManager';
 import ScheduleManager from './components/schedulesManager';
 import GroupsList from './components/groupList';
 import GroupDetail from './components/GroupDetail';
+import HomePage from './components/homepage';
 
 function App() {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ function App() {
         <Box component="main" flexGrow={1} sx={{ width: '100%' }}>
           <Routes>
             {/* Existing routes */}
+            <Route path='/' element={<HomePage />} />
             <Route path='/profile' element={<UserProfile />} />
             <Route path='/courses' element={<CoursesList />} />
             <Route path='/courses/:courseId' element={<CourseProfile />} />
